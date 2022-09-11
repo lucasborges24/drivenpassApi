@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id          Int           @id @default(autoincrement())
   email       String        @unique
   password    String
@@ -25,7 +25,7 @@ model Credentials {
   title     String
   userId    Int
   createdAt DateTime? @default(now())
-  user      User      @relation(fields: [userId], references: [id])
+  user      Users     @relation(fields: [userId], references: [id])
 
   @@unique([title, userId])
 }
@@ -36,7 +36,7 @@ model securyNotes {
   description String
   userId      Int
   createdAt   DateTime? @default(now())
-  user        User      @relation(fields: [userId], references: [id])
+  user        Users     @relation(fields: [userId], references: [id])
 
   @@unique([title, userId])
 }
@@ -53,7 +53,7 @@ model cards {
   title          String
   userId         Int
   createdAt      DateTime? @default(now())
-  user           User      @relation(fields: [userId], references: [id])
+  user           Users     @relation(fields: [userId], references: [id])
 
   @@unique([title, userId])
 }
@@ -65,7 +65,7 @@ model wifis {
   title       String
   userId      Int
   createdAt   DateTime? @default(now())
-  user        User      @relation(fields: [userId], references: [id])
+  user        Users     @relation(fields: [userId], references: [id])
 }
 
 enum CardType {
