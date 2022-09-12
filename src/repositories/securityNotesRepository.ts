@@ -36,7 +36,7 @@ export const deleteSecuryNote = async (id: number) => {
 export const getSecuryNotesByIdAndTitle = async (id: number, title: string) => {
   const securyNote = await prisma.securyNotes.findFirst({
     where: {
-      id: id,
+      userId: id,
       title: title,
     },
   });
