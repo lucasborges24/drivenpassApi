@@ -31,3 +31,12 @@ export const getCredential = async (req: Request, res: Response) => {
 
   res.status(200).send(credential);
 };
+
+export const deleteCredential = async (req: Request, res: Response) => {
+  const data: ICredentialLocalsGet = {
+    token: res.locals.token,
+    id: res.locals.credentialId,
+  };
+  const deleted = await credentialService.deleteCredential(data);
+  res.status(201).send(deleted);
+};

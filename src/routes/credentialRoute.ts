@@ -35,4 +35,12 @@ credentialRouter.get(
   credentialCrontroller.getCredential
 );
 
+credentialRouter.delete(
+  "/credentials/:credentialId",
+  validateHeaderSchema(tokenSchema),
+  validateParamsId("credentialId"),
+  checkTokenBelongsSomeUser,
+  credentialCrontroller.deleteCredential
+);
+
 export default credentialRouter;

@@ -31,7 +31,7 @@ export const createCredential = async (data: ICredentialLocals) => {
 };
 
 export const getAllCredentials = async (id: number) => {
-  const credentials = await credentialRepository.getCredentialsById(id);
+  const credentials = await credentialRepository.getCredentialsByUserId(id);
   const uncryptCredentials = uncryptParams(credentials);
   return uncryptCredentials;
 };
@@ -41,6 +41,13 @@ export const getCredentialById = async (data: ICredentialLocalsGet) => {
   checkParamsMatchs(credential.userId, data.token.userId);
   const uncryptCredential = uncryptObject(credential);
   return uncryptCredential;
+};
+
+export const deleteCredential = async (data: ICredentialLocalsGet) => {
+  const credential = await searchCredentialById(data.id);
+  checkParamsMatchs(credential.userId, data.token.userId);
+  const deleted = await credentialRepository.deleteCredentialById(data.id);
+  return deleted;
 };
 
 export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {

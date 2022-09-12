@@ -24,7 +24,7 @@ export const getCredentialByIdAndTitle = async (id: number, title: string) => {
   return credential;
 };
 
-export const getCredentialsById = async (id: number) => {
+export const getCredentialsByUserId = async (id: number) => {
   const credentials = await prisma.credentials.findMany({
     where: {
       userId: id,
@@ -40,4 +40,13 @@ export const getCredentialById = async (id: number) => {
     },
   });
   return credential;
+};
+
+export const deleteCredentialById = async (id: number) => {
+  const deleted = await prisma.credentials.delete({
+    where: {
+      id: id,
+    },
+  });
+  return deleted;
 };
