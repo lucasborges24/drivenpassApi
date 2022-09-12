@@ -9,3 +9,4 @@ export interface ICredentialLocals {
 
 export type ICredentialBody = Omit<Credentials, "id" | "userId" | "createdAt">;
 export type ICredentialInsert = Omit<Credentials, "id" | "createdAt">;
+export type ICredentialLocalsGet = Omit<ICredentialLocals, "body">;

@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { credentialService } from "../services";
-import { ICredentialLocals } from "../types/credentialType";
+import {
+  ICredentialLocals,
+  ICredentialLocalsGet,
+} from "../types/credentialType";
 
 export const createCredential = async (req: Request, res: Response) => {
   const data: ICredentialLocals = {
@@ -11,4 +14,20 @@ export const createCredential = async (req: Request, res: Response) => {
   const createdCredential = await credentialService.createCredential(data);
 
   res.status(201).send(createdCredential);
+};
+
+export const getAllCredentials = async (req: Request, res: Response) => {
+  const { userId }: { userId: number } = res.locals.token;
+  const credentials = await credentialService.getAllCredentials(userId);
+  res.status(200).send(credentials);
+};
+
+export const getCredential = async (req: Request, res: Response) => {
+  const data: ICredentialLocalsGet = {
+    token: res.locals.token,
+    id: res.locals.credentialId,
+  };
+  const credential = await credentialService.getCredentialById(data);
+
+  res.status(200).send(credential);
 };

@@ -20,4 +20,19 @@ credentialRouter.post(
   credentialCrontroller.createCredential
 );
 
+credentialRouter.get(
+  "/credentials",
+  validateHeaderSchema(tokenSchema),
+  checkTokenBelongsSomeUser,
+  credentialCrontroller.getAllCredentials
+);
+
+credentialRouter.get(
+  "/credentials/:credentialId",
+  validateHeaderSchema(tokenSchema),
+  validateParamsId("credentialId"),
+  checkTokenBelongsSomeUser,
+  credentialCrontroller.getCredential
+);
+
 export default credentialRouter;

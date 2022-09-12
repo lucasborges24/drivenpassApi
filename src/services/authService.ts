@@ -28,15 +28,12 @@ export const signUp = async (data: CreateUserData) => {
 export const signIn = async (data: CreateUserData) => {
   const { email, password } = data;
   const user: Users = await getEmailThatExists(email);
-  // checar se senha do user bate com a enviada
   checkPasswordsMatch(password, user.password);
-  // criar token com id e email do user
   const tokenInfo = {
     userId: user.id,
     email: user.email,
   };
   const token = createTokenByJwt(tokenInfo);
-  // enviar token
   return token;
 };
 

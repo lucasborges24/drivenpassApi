@@ -1,21 +1,22 @@
 import { checkParamsMatchs } from "../middlewares/idMiddleware";
 import { credentialRepository } from "../repositories";
 import { CreateUserToken } from "../types/authTypes";
-import { ICredentialInsert, ICredentialLocals } from "../types/credentialType";
+import {
+  ICredentialInsert,
+  ICredentialLocals,
+  ICredentialLocalsGet,
+} from "../types/credentialType";
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
+import { Credentials } from "@prisma/client";
 
 const { CRYPTR_KEY } = process.env;
 const cryptr = new Cryptr(CRYPTR_KEY!);
 
 export const createCredential = async (data: ICredentialLocals) => {
-  //   checar se id enviado bate com o do token;
   checkParamsMatchs(data.id, data.token.userId);
-  // checar se o user já tem title cadastrado
   await checkTitleAlreadyWasUsed(data.token.userId, data.body.title);
-  // encriptar senha
   const encryptedKey = await encryptParamByCryptr(data.body.password);
-  // inserir dado no banco
   const objectToInsert: ICredentialInsert = {
     url: data.body.url,
     username: data.body.username,
@@ -27,6 +28,19 @@ export const createCredential = async (data: ICredentialLocals) => {
     objectToInsert
   );
   return credential;
+};
+
+export const getAllCredentials = async (id: number) => {
+  const credentials = await credentialRepository.getCredentialsById(id);
+  const uncryptCredentials = uncryptParams(credentials);
+  return uncryptCredentials;
+};
+
+export const getCredentialById = async (data: ICredentialLocalsGet) => {
+  const credential = await searchCredentialById(data.id);
+  checkParamsMatchs(credential.userId, data.token.userId);
+  const uncryptCredential = uncryptObject(credential);
+  return uncryptCredential;
 };
 
 export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
@@ -44,7 +58,46 @@ export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
   return;
 };
 
+export const searchCredentialById = async (id: number) => {
+  const credential = await credentialRepository.getCredentialById(id);
+  if (!credential) {
+    const error: object = {
+      type: "Not_Found",
+      message: "Credencial Não existe.",
+    };
+    throw error;
+  }
+  return credential;
+};
+
 export const encryptParamByCryptr = async (key: string) => {
   const encryptedKey = cryptr.encrypt(key);
   return encryptedKey;
+};
+
+export const uncryptParams = (keys: Credentials[]) => {
+  try {
+    const uncryptArray = keys.map((item) => {
+      const newObject = {
+        ...item,
+        password: cryptr.decrypt(item["password"]),
+      };
+      return newObject;
+    });
+    return uncryptArray;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uncryptObject = (object: Credentials) => {
+  try {
+    const uncrypt = {
+      ...object,
+      password: cryptr.decrypt(object["password"]),
+    };
+    return uncrypt;
+  } catch (error) {
+    throw error;
+  }
 };

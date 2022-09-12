@@ -23,3 +23,21 @@ export const getCredentialByIdAndTitle = async (id: number, title: string) => {
   });
   return credential;
 };
+
+export const getCredentialsById = async (id: number) => {
+  const credentials = await prisma.credentials.findMany({
+    where: {
+      userId: id,
+    },
+  });
+  return credentials;
+};
+
+export const getCredentialById = async (id: number) => {
+  const credential = await prisma.credentials.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return credential;
+};
