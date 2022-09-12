@@ -46,7 +46,7 @@ export const deleteCard = async (data: ICardLocalsGet) => {
   const card = await searchCardById(data.id);
   checkParamsMatchs(card.userId, data.token.userId);
   const deleted = await cardRepositoy.deleteCardById(data.id);
-  return deleted
+  return deleted;
 };
 
 export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
