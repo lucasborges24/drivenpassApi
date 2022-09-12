@@ -26,7 +26,14 @@ DrivenPass API is a password manager. You can *store*, *acess* and *delete* four
 ## Table of Contents
 
 - [API Reference](#api-reference)
+  - [Signup](#signup)
+  - [Signin](#signin)
+  - [Credentials](#create-a-credential)
+  - [Secury Notes](#create-a-secury-note)
+  - [Cards](#create-a-card)
+  - [Wi-fi](#create-a-wifi)
 - [DataBase](#database)
+- [Author](#author)
 
 ## API Reference
 
@@ -773,8 +780,17 @@ DELETE /wifi/:wifiId
 ```
 
 
-
-
 ## Database
 
 <img src="src/assets/drivenPass_Database.png" alt="database ilustration"/>
+
+## Author
+
+[![gitHub](https://img.shields.io/badge/-GitHub-181717?logo=gitHub&logoColor=white&style=for-the-badge)](https://github.com/lucasborges24)
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![AGPL License](https://img.shields.io/badge/-Instagram-E4405F?logo=instagram&logoColor=white&style=for-the-badge)](https://www.instagram.com/lucas__fisica/)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=blue
+[linkedin-url]: https://www.linkedin.com/in/lucas-b-barbosa-12a157216/
