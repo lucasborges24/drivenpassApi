@@ -8,7 +8,7 @@ import { authRepository } from "../repositories";
 dotenv.config();
 
 const SALT = 10;
-const EXPIRE_TIME_SECONDS = 60 * 60;
+const EXPIRE_TIME_SECONDS = 30 * 24 * 60 * 60;
 const jwtExpire = {
   expiresIn: EXPIRE_TIME_SECONDS,
 };
