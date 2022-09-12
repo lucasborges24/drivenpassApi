@@ -10,6 +10,8 @@ import Cryptr from "cryptr";
 import dotenv from "dotenv";
 import { Credentials } from "@prisma/client";
 
+dotenv.config();
+
 const { CRYPTR_KEY } = process.env;
 const cryptr = new Cryptr(CRYPTR_KEY!);
 
