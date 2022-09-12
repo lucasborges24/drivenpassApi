@@ -20,9 +20,9 @@ model Users {
 model Credentials {
   id        Int       @id @default(autoincrement())
   url       String
-  username  String
+  username  String    @db.VarChar(50)
   password  String
-  title     String
+  title     String    @db.VarChar(50)
   userId    Int
   createdAt DateTime? @default(now())
   user      Users     @relation(fields: [userId], references: [id])
@@ -32,8 +32,8 @@ model Credentials {
 
 model securyNotes {
   id          Int       @id @default(autoincrement())
-  title       String
-  description String
+  title       String    @db.VarChar(50)
+  description String    @db.VarChar(1000)
   userId      Int
   createdAt   DateTime? @default(now())
   user        Users     @relation(fields: [userId], references: [id])
@@ -50,7 +50,7 @@ model cards {
   password       String
   isVirtual      Boolean
   type           CardType
-  title          String
+  title          String    @db.VarChar(50)
   userId         Int
   createdAt      DateTime? @default(now())
   user           Users     @relation(fields: [userId], references: [id])
