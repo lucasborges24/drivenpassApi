@@ -20,4 +20,27 @@ cardRouter.post(
   cardController.insertCard
 );
 
+cardRouter.get(
+  "/card",
+  validateHeaderSchema(tokenSchema),
+  checkTokenBelongsSomeUser,
+  cardController.getAllCards
+);
+
+cardRouter.get(
+  "/card/:cardId",
+  validateHeaderSchema(tokenSchema),
+  validateParamsId("cardId"),
+  checkTokenBelongsSomeUser,
+  cardController.getCard
+);
+
+cardRouter.delete(
+  "/card/:cardId",
+  validateHeaderSchema(tokenSchema),
+  validateParamsId("cardId"),
+  checkTokenBelongsSomeUser,
+  cardController.deleteCard
+);
+
 export default cardRouter;

@@ -28,29 +28,29 @@ export const getCardByIdAndTitle = async (id: number, title: string) => {
   return card;
 };
 
-//   export const getCardsByUserId = async (id: number) => {
-//     const credentials = await prisma.credentials.findMany({
-//       where: {
-//         userId: id,
-//       },
-//     });
-//     return credentials;
-//   };
+  export const getCardsByUserId = async (id: number) => {
+    const cards = await prisma.cards.findMany({
+      where: {
+        userId: id,
+      },
+    });
+    return cards;
+  };
 
-//   export const getCardById = async (id: number) => {
-//     const credential = await prisma.credentials.findUnique({
-//       where: {
-//         id: id,
-//       },
-//     });
-//     return credential;
-//   };
+  export const getCardById = async (id: number) => {
+    const card = await prisma.cards.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return card;
+  };
 
-//   export const deleteCardById = async (id: number) => {
-//     const deleted = await prisma.credentials.delete({
-//       where: {
-//         id: id,
-//       },
-//     });
-//     return deleted;
-//   };
+  export const deleteCardById = async (id: number) => {
+    const deleted = await prisma.cards.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deleted;
+  };

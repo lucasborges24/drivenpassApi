@@ -1,8 +1,9 @@
 import { checkParamsMatchs } from "../middlewares/idMiddleware";
 import { cardRepositoy } from "../repositories";
-import { ICardInsert, ICardLocals } from "../types/cardTypes";
+import { ICardInsert, ICardLocals, ICardLocalsGet } from "../types/cardTypes";
 import dotenv from "dotenv";
 import Cryptr from "cryptr";
+import { cards } from "@prisma/client";
 
 dotenv.config();
 
@@ -28,6 +29,26 @@ export const insertCard = async (data: ICardLocals) => {
   return insertedCard;
 };
 
+export const getAllCards = async (id: number) => {
+  const cards = await cardRepositoy.getCardsByUserId(id);
+  const uncryptCards = uncryptParams(cards);
+  return uncryptCards;
+};
+
+export const getCard = async (data: ICardLocalsGet) => {
+  const card = await searchCardById(data.id);
+  checkParamsMatchs(card.userId, data.token.userId);
+  const uncryptCard = uncryptObject(card);
+  return uncryptCard;
+};
+
+export const deleteCard = async (data: ICardLocalsGet) => {
+  const card = await searchCardById(data.id);
+  checkParamsMatchs(card.userId, data.token.userId);
+  const deleted = await cardRepositoy.deleteCardById(data.id);
+  return deleted
+};
+
 export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
   const card = await cardRepositoy.getCardByIdAndTitle(id, title);
   if (card) {
@@ -43,4 +64,43 @@ export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
 export const encryptParamByCryptr = async (key: string) => {
   const encryptedKey = cryptr.encrypt(key);
   return encryptedKey;
+};
+
+export const uncryptParams = (keys: cards[]) => {
+  try {
+    const uncryptArray = keys.map((item) => {
+      const newObject = {
+        ...item,
+        password: cryptr.decrypt(item["password"]),
+      };
+      return newObject;
+    });
+    return uncryptArray;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const searchCardById = async (id: number) => {
+  const card = await cardRepositoy.getCardById(id);
+  if (!card) {
+    const error: object = {
+      type: "Not_Found",
+      message: "Credencial Não existe.",
+    };
+    throw error;
+  }
+  return card;
+};
+
+export const uncryptObject = (object: cards) => {
+  try {
+    const uncrypt = {
+      ...object,
+      password: cryptr.decrypt(object["password"]),
+    };
+    return uncrypt;
+  } catch (error) {
+    throw error;
+  }
 };
