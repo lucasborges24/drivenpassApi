@@ -23,21 +23,24 @@ securityRouter.post(
 securityRouter.get(
   "/securityNotes",
   validateHeaderSchema(tokenSchema),
-  checkTokenBelongsSomeUser
+  checkTokenBelongsSomeUser,
+  securityNoteController.getAllSecuryNotes
 );
 
 securityRouter.get(
   "/securityNotes/:notesId",
   validateHeaderSchema(tokenSchema),
   validateParamsId("notesId"),
-  checkTokenBelongsSomeUser
+  checkTokenBelongsSomeUser,
+  securityNoteController.getSecuryNote
 );
 
 securityRouter.delete(
   "/securityNotes/:notesId",
   validateHeaderSchema(tokenSchema),
   validateParamsId("notesId"),
-  checkTokenBelongsSomeUser
+  checkTokenBelongsSomeUser,
+  securityNoteController.deleteSecuryNote
 );
 
 export default securityRouter;

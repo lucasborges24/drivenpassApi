@@ -3,6 +3,7 @@ import { securityNoteRepository } from "../repositories";
 import {
   ISecuryNotesLocals,
   SecuryNotesInsert,
+  SecuryNotesLocalsGet,
 } from "../types/securityNotesTypes";
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
@@ -26,6 +27,24 @@ export const insertSecurityNote = async (data: ISecuryNotesLocals) => {
   return securyNote;
 };
 
+export const getAllSecuryNotes = async (id: number) => {
+  const securyNotes = await securityNoteRepository.getSecuryNotesByUserId(id);
+  return securyNotes;
+};
+
+export const getSecuryNotesById = async (data: SecuryNotesLocalsGet) => {
+  const securynote = await searchSecuryNotesById(data.id);
+  checkParamsMatchs(securynote.userId, data.token.userId);
+  return securynote;
+};
+
+export const deleteSecuryNote = async (data: SecuryNotesLocalsGet) => {
+  const securyNote = await searchSecuryNotesById(data.id);
+  checkParamsMatchs(securyNote.userId, data.token.userId);
+  const deleted = await securityNoteRepository.deleteSecuryNote(data.id);
+  return deleted;
+};
+
 export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
   const securityNote = await securityNoteRepository.getSecuryNotesByIdAndTitle(
     id,
@@ -39,4 +58,16 @@ export const checkTitleAlreadyWasUsed = async (id: number, title: string) => {
     throw error;
   }
   return;
+};
+
+export const searchSecuryNotesById = async (id: number) => {
+  const securyNote = await securityNoteRepository.getSecuryNoteById(id);
+  if (!securyNote) {
+    const error: object = {
+      type: "Not_Found",
+      message: "Credencial Não existe.",
+    };
+    throw error;
+  }
+  return securyNote;
 };

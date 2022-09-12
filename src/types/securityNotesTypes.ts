@@ -9,3 +9,4 @@ export interface ISecuryNotesLocals {
 
 export type SecuryNotesInsert = Omit<securyNotes, "id" | "createdAt">;
 export type SecuryNotesBody = Omit<securyNotes, "id" | "userId" | "createdAt">;
+export type SecuryNotesLocalsGet = Omit<ISecuryNotesLocals, "body">;
